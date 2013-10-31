@@ -281,7 +281,9 @@ namespace hfmdraveplugin {
     CHFMDRaveModule(EnvironmentBasePtr penv) : ModuleBase(penv)
     {
 
- 
+      std::system("echo $PWD");
+      RAVELOG_INFO("softkinetic");
+
       __description = "hough forest multi object detection for openrave";
       RegisterCommand("numbodies",boost::bind(&CHFMDRaveModule::NumBodies,this,_1,_2),"returns bodies");
       RegisterCommand("load",boost::bind(&CHFMDRaveModule::Load,this,_1,_2),"softkinetic");
@@ -316,7 +318,8 @@ namespace hfmdraveplugin {
       //read argument
       //check argument
 
-      conf.loadConfig("/home/masahiko/HFMD/config.xml");
+      //conf.loadConfig("/home/masahiko/HFMD/config.xml");
+      conf.loadConfig("./config.xml");
       conf.demoMode = 1;
 
       g_forest = NULL;
@@ -326,8 +329,8 @@ namespace hfmdraveplugin {
 
       g_calib = new CCalibDS325;
 
-      g_calib->loadParameters("/home/masahiko/HFMD/intrinsics.yml", "/home/masahiko/HFMD/extrinsics.yml");
-
+      //g_calib->loadParameters("/home/masahiko/HFMD/intrinsics.yml", "/home/masahiko/HFMD/extrinsics.yml");
+      g_calib->loadParameters("./intrinsics.yml", "./extrinsics.yml");
 
 
       g_context = Context::create("localhost");
