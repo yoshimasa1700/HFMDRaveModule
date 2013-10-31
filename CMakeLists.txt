@@ -21,14 +21,16 @@ include_directories(${OpenRAVE_INCLUDE_DIRS}
 link_directories(${OpenRAVE_LIBRARY_DIRS} 
 					  ${Boost_LIBRARY_DIRS} 
 					  ${OpenCV_LIB_DIR} 
-					  /usr/local/lib 
-					  /opt/softkinetic/DepthSenseSDK/lib)
+					  "/usr/local/lib"  
+					  "/opt/softkinetic/DepthSenseSDK/lib")
 if (OPENMP_FOUND)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 endif()
 
-add_library(HFMDRaveModule SHARED ./src/HFMDRaveModule.cpp)
+add_library(HFMDRaveModule SHARED 
+			   ./src/HFMDRaveModule.cpp
+			   ./src/CCalibDS325.cpp)
 set_target_properties(HFMDRaveModule PROPERTIES COMPILE_FLAGS "${OpenRAVE_CXX_FLAGS}")
 set_target_properties(HFMDRaveModule PROPERTIES LINK_FLAGS "${OpenRAVE_LINK_FLAGS}")
 target_link_libraries(HFMDRaveModule 
@@ -38,4 +40,4 @@ target_link_libraries(HFMDRaveModule
 				     DepthSensePlugins
 				     turbojpeg
 				     )
-install(TARGETS HFMDRaveModule LIBRARY DESTINATION ../share/openrave-0.8/plugins)
+install(TARGETS HFMDRaveModule DESTINATION ../share/openrave-0.8/plugins)
