@@ -118,15 +118,17 @@ int CCalibDS325::calib(cv::Mat &colorSrc, cv::Mat &depthSrc, cv::Mat &colorDest,
     cv::resize(depthPart, rescale, cv::Size(640, 480));
 
     rescale.copyTo(depthDest);
-
+    cvtColor(depthDest, depthDest,CV_RGB2GRAY,1);
+    //    depthDest.convertTo(depthDest,1.0,CV_16UC1);
+    std::cout << depthDest.type() << " " << CV_64FC1	<< std::endl;
    
 
-    cv::Mat canvasPart = canvas(cv::Rect(w * 1, 0, w, h));
-    cv::resize(depthPart, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
+    // cv::Mat canvasPart = canvas(cv::Rect(w * 1, 0, w, h));
+    // cv::resize(depthPart, canvasPart, canvasPart.size(), 0, 0, CV_INTER_AREA);
 
-    cv::Rect vroi(cvRound(validRoi[1].x*sf), cvRound(validRoi[1].y*sf),
-  		  cvRound(validRoi[1].width*sf), cvRound(validRoi[1].height*sf));
-    cv::rectangle(canvasPart, vroi, cv::Scalar(0,0,255), 3, 8);
+    // cv::Rect vroi(cvRound(validRoi[1].x*sf), cvRound(validRoi[1].y*sf),
+    // 		  cvRound(validRoi[1].width*sf), cvRound(validRoi[1].height*sf));
+    // cv::rectangle(canvasPart, vroi, cv::Scalar(0,0,255), 3, 8);
 	     
   }
 
