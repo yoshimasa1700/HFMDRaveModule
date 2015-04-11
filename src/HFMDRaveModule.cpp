@@ -43,7 +43,6 @@ void onNewColorSample(ColorNode node, ColorNode::NewSampleReceivedData data){
   printf("C#%u: %d\n",g_cFrames,data.colorMap.size());
   memcpy(g_color.data, data.colorMap, data.colorMap.size());
 
-
   //    int key = cv::waitKey(10);
   
   RAVELOG_INFO("kokoyade\n");
@@ -52,7 +51,7 @@ void onNewColorSample(ColorNode node, ColorNode::NewSampleReceivedData data){
   cv::Mat scaledDepth;
 
   g_calib->calib(g_color, g_depth, g_color, scaledDepth);
-RAVELOG_INFO("kokoyade\n");
+  RAVELOG_INFO("kokoyade\n");
 
   seqImg.img.push_back(&g_color);
   seqImg.img.push_back(&scaledDepth);
@@ -98,139 +97,139 @@ RAVELOG_INFO("kokoyade\n");
 // New depth sample event handler
 void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 {
-printf("Z#%u: %d\n",g_dFrames,data.vertices.size());
-g_dFrames++;
+  printf("Z#%u: %d\n",g_dFrames,data.vertices.size());
+  g_dFrames++;
 
-printf("Z2#: %d\n", g_depth.cols * g_depth.rows * g_depth.channels());
+  printf("Z2#: %d\n", g_depth.cols * g_depth.rows * g_depth.channels());
  
-memcpy(g_depth.data, data.depthMap, data.depthMap.size()*2);
+  memcpy(g_depth.data, data.depthMap, data.depthMap.size()*2);
 }
 
 /*----------------------------------------------------------------------------*/
 void configureDepthNode()
 {
-g_dnode.newSampleReceivedEvent().connect(&onNewDepthSample);
+  g_dnode.newSampleReceivedEvent().connect(&onNewDepthSample);
 
-DepthNode::Configuration config = g_dnode.getConfiguration();
-config.frameFormat = FRAME_FORMAT_QVGA;
-config.framerate = 30;
-config.mode = DepthNode::CAMERA_MODE_CLOSE_MODE;
-config.saturation = true;
+  DepthNode::Configuration config = g_dnode.getConfiguration();
+  config.frameFormat = FRAME_FORMAT_QVGA;
+  config.framerate = 30;
+  config.mode = DepthNode::CAMERA_MODE_CLOSE_MODE;
+  config.saturation = true;
 
-g_dnode.setEnableVertices(true);
-g_dnode.setEnableDepthMap(true);
+  g_dnode.setEnableVertices(true);
+  g_dnode.setEnableDepthMap(true);
 
-try 
-  {
-g_context.requestControl(g_dnode,0);
+  try 
+    {
+      g_context.requestControl(g_dnode,0);
 
-g_dnode.setConfiguration(config);
-}
- catch (ArgumentException& e)
-   {
-printf("Argument Exception: %s\n",e.what());
-}
- catch (UnauthorizedAccessException& e)
-   {
-printf("Unauthorized Access Exception: %s\n",e.what());
-}
- catch (IOException& e)
-   {
-printf("IO Exception: %s\n",e.what());
-}
- catch (InvalidOperationException& e)
-   {
-printf("Invalid Operation Exception: %s\n",e.what());
-}
- catch (ConfigurationException& e)
-   {
-printf("Configuration Exception: %s\n",e.what());
-}
- catch (StreamingException& e)
-   {
-printf("Streaming Exception: %s\n",e.what());
-}
- catch (TimeoutException&)
-   {
-printf("TimeoutException\n");
-}
+      g_dnode.setConfiguration(config);
+    }
+  catch (ArgumentException& e)
+    {
+      printf("Argument Exception: %s\n",e.what());
+    }
+  catch (UnauthorizedAccessException& e)
+    {
+      printf("Unauthorized Access Exception: %s\n",e.what());
+    }
+  catch (IOException& e)
+    {
+      printf("IO Exception: %s\n",e.what());
+    }
+  catch (InvalidOperationException& e)
+    {
+      printf("Invalid Operation Exception: %s\n",e.what());
+    }
+  catch (ConfigurationException& e)
+    {
+      printf("Configuration Exception: %s\n",e.what());
+    }
+  catch (StreamingException& e)
+    {
+      printf("Streaming Exception: %s\n",e.what());
+    }
+  catch (TimeoutException&)
+    {
+      printf("TimeoutException\n");
+    }
 
 }
 
 /*----------------------------------------------------------------------------*/
 void configureColorNode()
 {
-// connect new color sample handler
-g_cnode.newSampleReceivedEvent().connect(&onNewColorSample);
+  // connect new color sample handler
+  g_cnode.newSampleReceivedEvent().connect(&onNewColorSample);
 
-ColorNode::Configuration config = g_cnode.getConfiguration();
-//config.frameFormat = FRAME_FORMAT_WXGA_H;
-config.frameFormat = FRAME_FORMAT_VGA;
-config.compression = COMPRESSION_TYPE_MJPEG;
-config.powerLineFrequency = POWER_LINE_FREQUENCY_50HZ;
-config.framerate = 30;
+  ColorNode::Configuration config = g_cnode.getConfiguration();
+  //config.frameFormat = FRAME_FORMAT_WXGA_H;
+  config.frameFormat = FRAME_FORMAT_VGA;
+  config.compression = COMPRESSION_TYPE_MJPEG;
+  config.powerLineFrequency = POWER_LINE_FREQUENCY_50HZ;
+  config.framerate = 30;
 
-g_cnode.setEnableColorMap(true);
+  g_cnode.setEnableColorMap(true);
 
-try 
-  {
-g_context.requestControl(g_cnode,0);
+  try 
+    {
+      g_context.requestControl(g_cnode,0);
 
-g_cnode.setConfiguration(config);
-}
- catch (ArgumentException& e)
-   {
-printf("Argument Exception: %s\n",e.what());
-}
- catch (UnauthorizedAccessException& e)
-   {
-printf("Unauthorized Access Exception: %s\n",e.what());
-}
- catch (IOException& e)
-   {
-printf("IO Exception: %s\n",e.what());
-}
- catch (InvalidOperationException& e)
-   {
-printf("Invalid Operation Exception: %s\n",e.what());
-}
- catch (ConfigurationException& e)
-   {
-printf("Configuration Exception: %s\n",e.what());
-}
- catch (StreamingException& e)
-   {
-printf("Streaming Exception: %s\n",e.what());
-}
- catch (TimeoutException&)
-   {
-printf("TimeoutException\n");
-}
+      g_cnode.setConfiguration(config);
+    }
+  catch (ArgumentException& e)
+    {
+      printf("Argument Exception: %s\n",e.what());
+    }
+  catch (UnauthorizedAccessException& e)
+    {
+      printf("Unauthorized Access Exception: %s\n",e.what());
+    }
+  catch (IOException& e)
+    {
+      printf("IO Exception: %s\n",e.what());
+    }
+  catch (InvalidOperationException& e)
+    {
+      printf("Invalid Operation Exception: %s\n",e.what());
+    }
+  catch (ConfigurationException& e)
+    {
+      printf("Configuration Exception: %s\n",e.what());
+    }
+  catch (StreamingException& e)
+    {
+      printf("Streaming Exception: %s\n",e.what());
+    }
+  catch (TimeoutException&)
+    {
+      printf("TimeoutException\n");
+    }
 }
 
 /*----------------------------------------------------------------------------*/
 void configureNode(Node node)
 {
-if ((node.is<DepthNode>())&&(!g_dnode.isSet()))
-  {
-g_dnode = node.as<DepthNode>();
-configureDepthNode();
-g_context.registerNode(node);
-}
+  if ((node.is<DepthNode>())&&(!g_dnode.isSet()))
+    {
+      g_dnode = node.as<DepthNode>();
+      configureDepthNode();
+      g_context.registerNode(node);
+    }
 
-if ((node.is<ColorNode>())&&(!g_cnode.isSet()))
-  {
-g_cnode = node.as<ColorNode>();
-configureColorNode();
-g_context.registerNode(node);
-}
+  if ((node.is<ColorNode>())&&(!g_cnode.isSet()))
+    {
+      g_cnode = node.as<ColorNode>();
+      configureColorNode();
+      g_context.registerNode(node);
+    }
 
- cv::namedWindow("color");
- cv::namedWindow("depth");
+  cv::namedWindow("color");
+  cv::namedWindow("depth");
 
- cv::namedWindow("vote");
+  cv::namedWindow("vote");
 
- //  cv::namedWindow("test");
+  //  cv::namedWindow("test");
 
 }
 
@@ -310,15 +309,14 @@ namespace hfmdraveplugin {
     bool Load(ostream& sout, istream& sinput)
     {
       RAVELOG_INFO("softkinetic");
-      std::cout << "testes" << std::endl;
       RAVELOG_INFO("testes\n");
       CConfig		conf;	 // setting
       std::vector<CDataset> dataSet; // training data name list and grand truth
 
       //read argument
       //check argument
-
       //conf.loadConfig("/home/masahiko/HFMD/config.xml");
+
       conf.loadConfig("./config.xml");
       conf.demoMode = 1;
 
@@ -331,7 +329,6 @@ namespace hfmdraveplugin {
 
       //g_calib->loadParameters("/home/masahiko/HFMD/intrinsics.yml", "/home/masahiko/HFMD/extrinsics.yml");
       g_calib->loadParameters("./intrinsics.yml", "./extrinsics.yml");
-
 
       g_context = Context::create("localhost");
       g_context.deviceAddedEvent().connect(&onDeviceConnected);
@@ -361,11 +358,11 @@ namespace hfmdraveplugin {
       if (g_pProjHelper)
         delete g_pProjHelper;
 
- if (g_forest)
-    delete g_forest;
+      if (g_forest)
+	delete g_forest;
 
-  if (g_calib)
-    delete g_calib;
+      if (g_calib)
+	delete g_calib;
 
       return true;
     }
